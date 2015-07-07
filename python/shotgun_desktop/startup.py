@@ -119,7 +119,7 @@ def __import_sgtk_from_path(path):
 
     # update sys.path with the install
     if python_path not in sys.path:
-        sys.path.insert(1, os.path.normpath(python_path))
+        sys.path.insert(0, os.path.normpath(python_path))
 
     # clear the importer cache since the path could have been created
     # since the last attempt to import toolkit
@@ -155,7 +155,6 @@ def __initialize_sgtk_authentication(sgtk, app_bootstrap):
     :param sgtk: The Toolkit API handle.
     :param app_bootstrap: The application bootstrap instance.
     """
-
     # If the version of Toolkit supports the new authentication mechanism
     if __toolkit_supports_authentication_module(sgtk):
         # import authentication
@@ -206,7 +205,7 @@ def __uuid_import(module, path):
     return module
 
 
-def __import_shotgun_authentication_from_path(app_bootstrap):
+def import_shotgun_authentication_from_path(app_bootstrap):
     """
     Imports bundled Shotgun authentication module with a decorated name so
     another instance can be loaded later on. If SGTK_CORE_DEBUG_LOCATION
