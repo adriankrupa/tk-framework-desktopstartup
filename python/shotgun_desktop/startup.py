@@ -1076,7 +1076,7 @@ def main(**kwargs):
     # shotgun_authentication in the following catch statements.
     try:
         # get the shotgun authentication module.
-        shotgun_authentication = __import_shotgun_authentication_from_path(app_bootstrap)
+        shotgun_authentication = import_shotgun_authentication_from_path(app_bootstrap)
     except Exception, e:
         __handle_unexpected_exception(splash, shotgun_authenticator, e, app_bootstrap)
         return -1
