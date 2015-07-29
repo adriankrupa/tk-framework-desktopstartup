@@ -404,7 +404,7 @@ def _get_pipeline_configs_for_path(path, data):
             # before associating it here.
             if pc not in project_paths[project_path]:
                 project_paths[project_path].append(pc)
-    
+
     # step 3 - look at the path we passed in - see if any of the computed
     # project folders are determined to be a parent path
     all_matching_pcs = []
