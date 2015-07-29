@@ -172,8 +172,7 @@ class TestShotgun610(TestCase):
             [
                 sys.executable,
                 mockdesktop_script,
-                "--test-folder", self.test_folder,
-                "--test-name", self._testMethodName
+                "--test-folder", self.test_folder
             ],
             stderr=subprocess.STDOUT,
             stdout=subprocess.PIPE

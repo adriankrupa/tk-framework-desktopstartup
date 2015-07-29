@@ -450,7 +450,7 @@ def __extract_command_line_argument(arg_name):
     return is_set
 
 
-def _run_engine(splash, app, tk, sgtk, app_bootstrap):
+def _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config):
 
     # initialize the tk-desktop engine for an empty context
     splash.set_message("Starting desktop engine.")
@@ -458,6 +458,12 @@ def _run_engine(splash, app, tk, sgtk, app_bootstrap):
 
     ctx = tk.context_empty()
     engine = sgtk.platform.start_engine("tk-desktop", tk, ctx)
+
+    if not __desktop_engine_supports_authentication_module(engine):
+        raise UpgradeEngineError(
+            "This version of the Shotgun Desktop only supports tk-desktop engine 2.0.0 and higher.",
+            default_site_config
+        )
 
     # engine will take over logging
     app_bootstrap.tear_down_logging()
@@ -746,14 +752,8 @@ def __launch_app(app, splash, connection, app_bootstrap, server):
             "This version of the Shotgun Desktop only supports core 0.16.4 and higher.",
             default_site_config
         )
-    if not __desktop_engine_supports_authentication_module(engine):
-        raise UpgradeEngineError(
-            "This version of the Shotgun Desktop only supports tk-desktop engine 2.0.0 and higher.",
-            default_site_config
-        )
 
-
-    return _run_engine(splash, app, tk, sgtk, app_bootstrap)
+    return _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config)
 
 
 def __handle_exception(splash, shotgun_authenticator, error_message):
