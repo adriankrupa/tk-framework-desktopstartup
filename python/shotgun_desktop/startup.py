@@ -450,7 +450,7 @@ def __extract_command_line_argument(arg_name):
     return is_set
 
 
-def _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config):
+def _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config, server):
 
     # initialize the tk-desktop engine for an empty context
     splash.set_message("Starting desktop engine.")
@@ -467,7 +467,7 @@ def _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config):
 
     # engine will take over logging
     app_bootstrap.tear_down_logging()
-    
+
     # Connect to the about to quit signal so that we can shut down the server automatically when the
     # desktop tries to quit the app.
     if server:
@@ -485,17 +485,7 @@ def _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config):
     return engine.run(splash, version=app_bootstrap.get_version(), startup_version=startup_version)
 
 
-
 def __launch_app(app, splash, connection, app_bootstrap, server):
-    if "SGTK_DESKTOP_ORIGINAL_PYTHONHOME" in os.environ:
-        os.environ["PYTHONHOME"] = os.environ["SGTK_DESKTOP_ORIGINAL_PYTHONHOME"]
-
-    # and run the engine
-    logger.debug("Running tk-desktop")
-    startup_version = get_location(sgtk, app_bootstrap).get("version") or "Undefined"
-    return engine.run(splash, version=app_bootstrap.get_version(), startup_version=startup_version)
-
-
     """
     Shows the splash screen, optionally downloads and configures Toolkit, imports it, optionally
     updates it and then launches the desktop engine.
@@ -753,7 +743,7 @@ def __launch_app(app, splash, connection, app_bootstrap, server):
             default_site_config
         )
 
-    return _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config)
+    return _run_engine(splash, app, tk, sgtk, app_bootstrap, default_site_config, server)
 
 
 def __handle_exception(splash, shotgun_authenticator, error_message):

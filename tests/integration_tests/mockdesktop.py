@@ -92,7 +92,7 @@ def main():
     app, splash = shotgun_desktop.startup.__init_app()
     connection = sg_auth.ShotgunAuthenticator().get_user().create_sg_connection()
     try:
-        shotgun_desktop.startup.__launch_app(app, splash, connection, bootstrap)
+        shotgun_desktop.startup.__launch_app(app, splash, connection, bootstrap, None)
     except:
         _logger.exception("Exception thrown!")
         raise
